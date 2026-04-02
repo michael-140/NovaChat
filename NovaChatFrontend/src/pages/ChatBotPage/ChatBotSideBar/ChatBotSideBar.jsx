@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react'
 function ChatHistory({ chatTopic }) {
     return (
         <div className="chat-history">
-            {/* <img className='chat-icon' src={botIcon}></img> */}
             <div className="sidebar-chat-topic">
                 <span>{chatTopic}</span>
             </div>
@@ -17,20 +16,31 @@ function ChatHistory({ chatTopic }) {
 export default function ChatBotSideBar() {
     const data = [
         {
-            id: 1,
-            topic: "Css1Css1Css1Css1Css1",
+            id: crypto.randomUUID(),
+            topic: "Topic1Topic1Topic1Topic1",
         },
         {
-            id: 2,
-            topic: "css2"
+            id: crypto.randomUUID(),
+            topic: "Topic2"
         },
         {
-            id: 3,
-            topic: "css3"
+            id: crypto.randomUUID(),
+            topic: "Topic3"
         }
     ]
 
     const [chatHistory, setchatHistory] = useState(data)
+
+    function AddNewChat(){
+        const newHistory = [
+            ...chatHistory,
+            {
+                id: crypto.randomUUID(),
+                topic: 'Assigned by AI' // [Update] ask the backend 
+            }
+        ]
+        setchatHistory(newHistory)
+    }
 
 
     return (
@@ -44,7 +54,7 @@ export default function ChatBotSideBar() {
 
                 <div className="chat-hisories">
 
-                    <div className="new-chat-history">
+                    <div className="new-chat-history" onClick={AddNewChat}>
                         <img className='new-chat-icon' src='/newChatIcon.svg'></img>
                         <div className="new-sidebar-chat-topic">
                             <span>New Chat</span>

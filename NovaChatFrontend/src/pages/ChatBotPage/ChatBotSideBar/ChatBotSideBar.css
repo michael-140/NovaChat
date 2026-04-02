@@ -11,6 +11,7 @@
     min-width: 100px;
     min-height: 100px;
     transition: width 0.5s ease;
+    color: var(--text-color);
 }
 
 .menuIcon{
@@ -41,6 +42,8 @@
     white-space: nowarp;
     overflow: hidden;
     transition: display 1s ease;
+    /* background-color: rgba(217, 220, 222, 0.422); */
+    box-shadow: 3px 3px 3px rgb(8, 17, 148);
 }
 
 .chat-subtitle span{
@@ -69,6 +72,7 @@
 
 .new-chat-history:hover, .chat-history:hover{
     background-color: rgba(5, 12, 219, 0.342);
+    box-shadow: 1px 1px 3px rgb(8, 17, 148);
 }
 
 .new-sidebar-chat-topic, .sidebar-chat-topic{
@@ -77,10 +81,10 @@
 }
 
 
-new-sidebar-chat-topic{
-    font-size: 20px;
-    color: var(--text-color);
-    white-space: nowrap;
+.new-sidebar-chat-topic{
+    font-size: 25px;
+    margin-left: 10px;
+
 }
 
 .sidebar-chat-topic, .chat-subtitle, .new-sidebar-chat-topic{
