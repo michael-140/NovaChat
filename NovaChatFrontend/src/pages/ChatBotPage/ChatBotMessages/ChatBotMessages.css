@@ -23,7 +23,7 @@
 
 .bot-messages, .user-messages{
     display: flex;
-    margin-top: 40px
+    margin: 40px 0;
 }
 
 .bot-messages{
@@ -41,7 +41,7 @@
 
 .user-message, .bot-message{
     max-width: 400px;
-    min-width: 100px;
+    min-width: 30px;
     border-radius: 20px;
     padding: 15px;
 }

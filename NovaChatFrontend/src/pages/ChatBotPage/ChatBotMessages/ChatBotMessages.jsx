@@ -2,7 +2,7 @@ import './ChatBotMessages.css'
 import botIcon from '../../../images/chatbotIcon.png'
 import userIcon from '../../../images/userIcon.png'
 import ChatInput from './ChatInput'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 
 function Message({ sender, content }) {
@@ -41,7 +41,7 @@ function Message({ sender, content }) {
 }
 
 export default function ChatBotMessages({ topic }) {
-    const data = [
+    const data = [ // [Update] should fetch from backend
         {
             id: crypto.randomUUID(),
             sender: "user",
@@ -64,12 +64,21 @@ export default function ChatBotMessages({ topic }) {
             content: "hi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
         },
     ]
+
     const [messages, setMessages] = useState(data)
+    const chatMessageRef = useRef(null)
+
+    useEffect(()=>{
+        const containerElem = chatMessageRef.current
+        if (containerElem){
+            containerElem.scrollTop = containerElem.scrollHeight
+        }
+    }, [messages])
 
     return (
         <div className="chat-messages-container">
 
-            <div className="chat-messages">
+            <div className="chat-messages" ref={chatMessageRef}>
 
                 {messages.length === 0 ? ( // empty 
                     <>
@@ -88,7 +97,7 @@ export default function ChatBotMessages({ topic }) {
                 )}
             </div>
 
-            <ChatInput />
+            <ChatInput messages={messages} setMessages={setMessages}/>
         </div>
     )
 }
