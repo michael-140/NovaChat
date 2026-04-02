@@ -1,6 +1,6 @@
 import './ChatInput.css'
 
-export default function ChatInput(){
+export default function ChatInput({}){
     return (
         <div className="chat-input-container">
                 <div className="chat-input-box">

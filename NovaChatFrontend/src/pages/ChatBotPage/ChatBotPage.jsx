@@ -14,7 +14,7 @@ export function ChatBotPage() {
                 <div className="chatbot">
 
                     <ChatBotSideBar/>
-                    <ChatBotMessages />
+                    <ChatBotMessages topic="Css1"/>
                     
                 </div>
 

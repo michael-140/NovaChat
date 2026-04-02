@@ -7,7 +7,8 @@
     background-color: #FFFF;
     color: var(--text-color);
     font-size: 25px;
-    box-shadow: 0 5px 20px rgb(6, 10, 124);
+    /* box-shadow: 0 5px 20px rgb(6, 10, 124); */
+    box-shadow: 0 3px 20px rgb(172, 172, 176);
 
     position: fixed;
     top: 0;
