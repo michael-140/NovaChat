@@ -2,9 +2,12 @@
     --text-color: #0f0979;
     --header-height: 50px;
     --bot-color: rgba(74, 74, 238, 0.822);
+    --deeper-white-bgc: rgba(178, 172, 172, 0.195);
+    --chat-element-height: 20px;
+
 }
 
-body{
+html,body{
     margin: 0;
     padding: 0;
 }

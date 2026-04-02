@@ -4,9 +4,25 @@
     background-color: var(--deeper-white-bgc);
     box-shadow: 1px 3px 10px rgb(186, 181, 181);
     position: relative;
+    overflow-y: auto;
+    min-height: 55px;
+    width: 100%;
+    max-width: 300px;
+    min-width: 100px;
+    min-height: 100px;
+    transition: width 0.5s ease;
 }
 
-.chat-historys{
+.menuIcon{
+    height: 40px;
+    rotate: 180deg;
+    position: absolute;
+    top:15px;
+    right:10px;
+    transform: all 2s ease;
+}
+
+.chat-histories-container{
     display: flex;
     flex-direction: column;
 }
@@ -16,37 +32,88 @@
 }
 
 .chat-subtitle{
-    font-size: 20px;
+    font-size: 30px;
+    color: var(--text-color);
     text-align: center;
     padding: 10px;
     margin-bottom: 10px;
     margin-top: 5px;
+    white-space: nowarp;
+    overflow: hidden;
+    transition: display 1s ease;
 }
 
-.chat-history{
+.chat-subtitle span{
+    transition: all 0.1s;
+}
+
+
+.chat-hisories{
+    /* border: 3px solid green; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.new-chat-history, .chat-history{
     display: flex;
     border-radius: 10px;
-    margin: 3px 10px;
+    margin: 3px 3px;
     flex-grow: 1;
-    padding: 10px;
-    transition: background-color 0.4s;
-    align-content: center;
-
+    padding: 20px;
+    transition: background-color 0.4s ease;
+    flex-grow: 1;
+    position: relative;
 }
 
-.chat-history:hover{
+.new-chat-history:hover, .chat-history:hover{
     background-color: rgba(5, 12, 219, 0.342);
 }
 
-.sidebar-chat-topic{
+.new-sidebar-chat-topic, .sidebar-chat-topic{
     display: flex;
     align-items: center;
 }
 
-.menuIcon{
+
+new-sidebar-chat-topic{
+    font-size: 20px;
+    color: var(--text-color);
+    white-space: nowrap;
+}
+
+.sidebar-chat-topic, .chat-subtitle, .new-sidebar-chat-topic{
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.new-chat-icon{
     height: 30px;
-    rotate: 180deg;
-    position: absolute;
-    top:10px;
-    right:10px;
+}
+
+@media (max-width: 800px){
+
+    .chat-sidebar{
+        width: 100px;
+    }
+
+    .new-sidebar-chat-topic,
+    .chat-subtitle {
+        visibility:visible;
+        opacity: 0;
+    }
+
+    .menuIcon{
+        left: 50%;
+        transform: translateX(50%);
+    }
+
+    .new-chat-icon{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
 }
