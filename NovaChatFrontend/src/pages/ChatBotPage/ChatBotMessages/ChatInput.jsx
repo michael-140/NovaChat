@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './ChatInput.css'
 
-export default function ChatInput({messages, setMessages}){
+export default function ChatInput({currentHistory,setCurrentHistory}){
+    const messages = currentHistory.content
     const [inputText, setInputText] = useState('')
 
     function updateInputText(e){
@@ -12,7 +13,8 @@ export default function ChatInput({messages, setMessages}){
         if (inputText === ''){
             return
         }
-        const newUserMessage = [
+
+        const newUserMessages = [
             ...messages,
             {
                 id: crypto.randomUUID(),
@@ -20,20 +22,32 @@ export default function ChatInput({messages, setMessages}){
                 content: inputText
             }
         ]
-        setMessages(newUserMessage)
 
-        const newBotMessage = [
-            ...newUserMessage,
+        const newUserHistory = {
+            ...currentHistory,
+            content: newUserMessages
+        }
+
+
+        setCurrentHistory(newUserHistory)
+
+        const newBotMessages = [
+            ...newUserMessages,
             {
                 id: crypto.randomUUID(),
                 sender: "bot",
                 content: "Sorry~ So far AI function does not available!"
             }
         ]
+
+        const newBotHistory = {
+            ...newUserHistory,
+            content: newBotMessages
+        }
         
         setTimeout(()=>{
-            setMessages(newBotMessage)
-        },1500)
+            setCurrentHistory(newBotHistory)
+        },1000)
 
         setInputText("")
     }

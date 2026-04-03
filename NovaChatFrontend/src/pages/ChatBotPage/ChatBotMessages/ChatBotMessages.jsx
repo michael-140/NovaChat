@@ -6,89 +6,42 @@ import { useEffect, useRef, useState } from 'react'
 
 
 function Message({ sender, content }) {
-    console.log("Enter the message")
+    const isUser = sender === 'user';
+    
     return (
-        <>
-            {
-                sender === 'user' && (
-                    <>
-                        <div className="user-messages">
-                            <span className='user-message'>{content}</span>
-                            <img className='chat-icon' src={userIcon} />
-                        </div>
-                    </>
-                )
-            }
-
-            {
-                sender === 'bot' && (
-                    <>
-                        <div className="bot-messages">
-                            <img className='chat-icon' src={botIcon} />
-                            <span className='bot-message'>{content}</span>
-                        </div>
-                    </>
-                )
-            }
-
-            {
-                console.log("Finish the message")
-
-            }
-
-        </>
-    )
+        <div className={isUser ? "user-messages" : "bot-messages"}>
+            {!isUser && <img className='chat-icon' src={botIcon} alt="bot" />}
+            <span className={isUser ? 'user-message' : 'bot-message'}>{content}</span>
+            {isUser && <img className='chat-icon' src={userIcon} alt="user" />}
+        </div>
+    );
 }
 
-export default function ChatBotMessages({ topic }) {
-    const data = [ // [Update] should fetch from backend
-        {
-            id: crypto.randomUUID(),
-            sender: "user",
-            content: "hi I amasd bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-        }, {
-            id: crypto.randomUUID(),
-            sender: "bot",
-            content: "hi I asdam bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-        }, {
-            id: crypto.randomUUID(),
-            sender: "user",
-            content: "hi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi asdI am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-        }, {
-            id: crypto.randomUUID(),
-            sender: "user",
-            content: "hi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am asdbothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-        }, {
-            id: crypto.randomUUID(),
-            sender: "bot",
-            content: "hi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-        },
-    ]
+export default function ChatBotMessages({ currentHistory, setCurrentHistory }) {
 
-    const [messages, setMessages] = useState(data)
     const chatMessageRef = useRef(null)
 
-    useEffect(()=>{
+    useEffect(()=>{ // scroll to the new message
         const containerElem = chatMessageRef.current
         if (containerElem){
             containerElem.scrollTop = containerElem.scrollHeight
         }
-    }, [messages])
+    }, [currentHistory])
 
     return (
         <div className="chat-messages-container">
 
             <div className="chat-messages" ref={chatMessageRef}>
 
-                {messages.length === 0 ? ( // empty 
+                {currentHistory.content.length === 0 ? ( // empty 
                     <>
                         <h1 className='chat-topic'>Let's start the chat!</h1>
                     </>
                 ) : (
                     <>
-                        <h1 className='chat-topic'>{topic}</h1>
+                        <h1 className='chat-topic'>{currentHistory.topic}</h1>
 
-                        {messages.map((message) => {
+                        {currentHistory.content.map((message) => {
                             return (
                                 < Message key={message.id} sender={message.sender} content={message.content} />
                             )
@@ -97,7 +50,10 @@ export default function ChatBotMessages({ topic }) {
                 )}
             </div>
 
-            <ChatInput messages={messages} setMessages={setMessages}/>
+            <ChatInput 
+                currentHistory={currentHistory}
+                setCurrentHistory={setCurrentHistory}
+            />
         </div>
     )
 }

@@ -59,6 +59,12 @@
 
 }
 
+.chat-hisories button{
+    border: none;
+    cursor: pointer;
+}
+
+
 .new-chat-history, .chat-history{
     display: flex;
     border-radius: 10px;

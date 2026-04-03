@@ -1,45 +1,35 @@
 import './ChatBotSideBar.css'
-import botIcon from '../../../images/chatbotIcon.png'
-import { useState, useEffect } from 'react'
 
+function ChatHistory({ currentHistoryid,history,setCurrentHistory }) {
+    
+    const changeCurrentChat = ()=>{
+        setCurrentHistory(history)
+    }
 
-function ChatHistory({ chatTopic }) {
     return (
-        <div className="chat-history">
-            <div className="sidebar-chat-topic">
-                <span>{chatTopic}</span>
+        <button onClick={changeCurrentChat}>
+            <div className={currentHistoryid===history.id? "history-active chat-history": "chat-history"}>
+                <div className="sidebar-chat-topic">
+                    <span>{history.topic}</span>
+                </div>
             </div>
-        </div>
+        </button>
+
     )
 }
 
-export default function ChatBotSideBar() {
-    const data = [
-        {
-            id: crypto.randomUUID(),
-            topic: "Topic1Topic1Topic1Topic1",
-        },
-        {
-            id: crypto.randomUUID(),
-            topic: "Topic2"
-        },
-        {
-            id: crypto.randomUUID(),
-            topic: "Topic3"
-        }
-    ]
-
-    const [chatHistory, setchatHistory] = useState(data)
+export default function ChatBotSideBar({chatHistories,setChatHistories,currentHistory,setCurrentHistory}) {
 
     function AddNewChat(){
         const newHistory = [
-            ...chatHistory,
             {
                 id: crypto.randomUUID(),
-                topic: 'Assigned by AI' // [Update] ask the backend 
-            }
+                topic: 'Let\' start', // [Update] ask the backend 
+                content: []
+            },
+            ...chatHistories
         ]
-        setchatHistory(newHistory)
+        setChatHistories(newHistory)
     }
 
 
@@ -63,16 +53,18 @@ export default function ChatBotSideBar() {
 
 
                     {
-                        chatHistory.map((history) => {
-                            return <ChatHistory chatTopic={history.topic} key={history.id} />
+                        chatHistories.map((history) => {
+                            return <ChatHistory 
+                                        history={history} 
+                                        setCurrentHistory={setCurrentHistory}
+                                        currentHistoryid={currentHistory.id}
+                                        key={history.id} 
+                                    />
                         })
                     }
                 </div>
 
-
             </div>
-
-
 
         </div>
     )
