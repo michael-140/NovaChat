@@ -30,6 +30,7 @@ export default function ChatBotSideBar({chatHistories,setChatHistories,currentHi
             ...chatHistories
         ]
         setChatHistories(newHistory)
+        setCurrentHistory(newHistory[0])
     }
 
 

@@ -2,7 +2,7 @@ import './ChatBotMessages.css'
 import botIcon from '../../../images/chatbotIcon.png'
 import userIcon from '../../../images/userIcon.png'
 import ChatInput from './ChatInput'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 
 function Message({ sender, content }) {
@@ -21,7 +21,7 @@ export default function ChatBotMessages({ currentHistory, setCurrentHistory }) {
 
     const chatMessageRef = useRef(null)
 
-    useEffect(()=>{ // scroll to the new message
+    useEffect(()=>{ // scroll to the new message (down side)
         const containerElem = chatMessageRef.current
         if (containerElem){
             containerElem.scrollTop = containerElem.scrollHeight
@@ -33,7 +33,7 @@ export default function ChatBotMessages({ currentHistory, setCurrentHistory }) {
 
             <div className="chat-messages" ref={chatMessageRef}>
 
-                {currentHistory.content.length === 0 ? ( // empty 
+                {!currentHistory.content ? ( // empty 
                     <>
                         <h1 className='chat-topic'>Let's start the chat!</h1>
                     </>

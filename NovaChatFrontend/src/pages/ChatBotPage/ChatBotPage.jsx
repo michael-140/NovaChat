@@ -50,9 +50,13 @@ export function ChatBotPage() {
         }, 
     ]
 
-    const [chatHistories, setChatHistories] = useState(data)
-    const [currentHistory,setCurrentHistory] = useState(data[0])
-
+    // chat always create one instead of null
+    // const [chatHistories, setChatHistories] = useState(data)
+    // const [currentHistory,setCurrentHistory] = useState(data[0])
+    
+    const [chatHistories, setChatHistories] = useState([])
+    const [currentHistory,setCurrentHistory] = useState({})
+    
     return (
         <>
             <Header />

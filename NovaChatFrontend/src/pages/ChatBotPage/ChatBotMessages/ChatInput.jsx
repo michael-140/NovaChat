@@ -14,8 +14,14 @@ export default function ChatInput({currentHistory,setCurrentHistory}){
             return
         }
 
-        const newUserMessages = [
+        const newUserMessages = messages? [
             ...messages,
+            {
+                id: crypto.randomUUID(),
+                sender: "user",
+                content: inputText
+            }
+        ]: [
             {
                 id: crypto.randomUUID(),
                 sender: "user",
