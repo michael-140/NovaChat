@@ -21,16 +21,16 @@ function ChatHistory({ currentHistoryid,history,setCurrentHistory }) {
 export default function ChatBotSideBar({chatHistories,setChatHistories,currentHistory,setCurrentHistory}) {
 
     function AddNewChat(){
-        const newHistory = [
-            {
+
+        const newHistory = {
                 id: crypto.randomUUID(),
-                topic: 'Let\' start', // [Update] ask the backend 
+                topic: 'Let\' start the chat!', // [Update] ask the backend 
                 content: []
-            },
-            ...chatHistories
-        ]
-        setChatHistories(newHistory)
-        setCurrentHistory(newHistory[0])
+        }
+        const newHistories = chatHistories? [newHistory, ...chatHistories]:[newHistory]
+
+        setChatHistories(newHistories)
+        setCurrentHistory(newHistories[0])
     }
 
 
@@ -52,8 +52,8 @@ export default function ChatBotSideBar({chatHistories,setChatHistories,currentHi
                         </div>
                     </div>
 
-
                     {
+                        chatHistories &&
                         chatHistories.map((history) => {
                             return <ChatHistory 
                                         history={history} 

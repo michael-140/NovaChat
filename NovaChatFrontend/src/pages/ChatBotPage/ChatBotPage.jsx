@@ -74,6 +74,8 @@ export function ChatBotPage() {
 
                     {/* always put the latest chat history first */}
                     <ChatBotMessages 
+                        chatHistories={chatHistories}
+                        setChatHistories={setChatHistories}
                         currentHistory={currentHistory} 
                         setCurrentHistory={setCurrentHistory}
                     />

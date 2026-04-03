@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import './ChatInput.css'
 
-export default function ChatInput({currentHistory,setCurrentHistory}){
-    const messages = currentHistory.content
+export default function ChatInput({chatHistories, setChatHistories, currentHistory,setCurrentHistory}){
+
     const [inputText, setInputText] = useState('')
 
     function updateInputText(e){
@@ -14,45 +14,72 @@ export default function ChatInput({currentHistory,setCurrentHistory}){
             return
         }
 
-        const newUserMessages = messages? [
-            ...messages,
-            {
-                id: crypto.randomUUID(),
-                sender: "user",
-                content: inputText
-            }
-        ]: [
-            {
-                id: crypto.randomUUID(),
-                sender: "user",
-                content: inputText
-            }
-        ]
+        let pervMessages = currentHistory.content || []
+        let firstMessages = pervMessages[0]? pervMessages[0].content:[]
+
+        // updating the state of user asking
+        const newMessage = {
+            id: crypto.randomUUID(),
+            sender: "user",
+            content: inputText
+        }
+
+        const activeHistory = Object.keys(currentHistory).length === 0?
+        {
+            id: crypto.randomUUID(),
+            topic: newMessage.content.slice(0,10) +"...",
+            content: []
+        }: currentHistory
 
         const newUserHistory = {
-            ...currentHistory,
-            content: newUserMessages
+            ...activeHistory,
+            topic:firstMessages.slice(0,10) +"...",
+            content: [
+                ...pervMessages,
+                newMessage
+            ]
         }
 
 
-        setCurrentHistory(newUserHistory)
+        setCurrentHistory(newUserHistory);
+        setInputText("");
 
-        const newBotMessages = [
-            ...newUserMessages,
-            {
+        // update the ai response 
+        
+        setTimeout(()=>{
+
+            const botMessage = {
                 id: crypto.randomUUID(),
                 sender: "bot",
                 content: "Sorry~ So far AI function does not available!"
             }
-        ]
 
-        const newBotHistory = {
-            ...newUserHistory,
-            content: newBotMessages
-        }
-        
-        setTimeout(()=>{
+            // update the topic
+            firstMessages = newUserHistory.content[0].content    
+
+            const newBotHistory = {
+                ...newUserHistory,
+                topic:firstMessages.slice(0,10) +"...",
+                content: [
+                    ...newUserHistory.content,
+                    botMessage
+                ]
+            }
+            
             setCurrentHistory(newBotHistory)
+
+            setChatHistories((prev) => {
+                const list = prev || []
+                const isExisting = list.some(h => h.id === newBotHistory.id)
+
+                if (isExisting) {
+                    // Update existing record in the list
+                    return list.map(h => h.id === newBotHistory.id ? newBotHistory : h);
+                } else {
+                    // Add the  new chat 
+                    return [newBotHistory];
+                }
+            });
         },1000)
 
         setInputText("")

@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react'
 
 function Message({ sender, content }) {
     const isUser = sender === 'user';
-    
+
     return (
         <div className={isUser ? "user-messages" : "bot-messages"}>
             {!isUser && <img className='chat-icon' src={botIcon} alt="bot" />}
@@ -17,13 +17,13 @@ function Message({ sender, content }) {
     );
 }
 
-export default function ChatBotMessages({ currentHistory, setCurrentHistory }) {
+export default function ChatBotMessages({ chatHistories, setChatHistories, currentHistory, setCurrentHistory }) {
 
     const chatMessageRef = useRef(null)
 
-    useEffect(()=>{ // scroll to the new message (down side)
+    useEffect(() => { // scroll to the new message (down side)
         const containerElem = chatMessageRef.current
-        if (containerElem){
+        if (containerElem) {
             containerElem.scrollTop = containerElem.scrollHeight
         }
     }, [currentHistory])
@@ -33,24 +33,22 @@ export default function ChatBotMessages({ currentHistory, setCurrentHistory }) {
 
             <div className="chat-messages" ref={chatMessageRef}>
 
-                {!currentHistory.content ? ( // empty 
-                    <>
-                        <h1 className='chat-topic'>Let's start the chat!</h1>
-                    </>
+                {!currentHistory?.content || currentHistory.content.length === 0 ? (
+                    <h1 className='chat-topic'>Let's start the chat!</h1>
                 ) : (
                     <>
                         <h1 className='chat-topic'>{currentHistory.topic}</h1>
-
-                        {currentHistory.content.map((message) => {
-                            return (
-                                < Message key={message.id} sender={message.sender} content={message.content} />
-                            )
-                        })}
+                        {currentHistory.content.map((message) => (
+                            <Message key={message.id} sender={message.sender} content={message.content} />
+                        ))}
                     </>
                 )}
+
             </div>
 
-            <ChatInput 
+            <ChatInput
+                chatHistories={chatHistories}
+                setChatHistories={setChatHistories}
                 currentHistory={currentHistory}
                 setCurrentHistory={setCurrentHistory}
             />
