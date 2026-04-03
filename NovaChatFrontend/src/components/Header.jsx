@@ -10,9 +10,9 @@ export default function Header() {
             </div>
 
             <div className="navigation">
-                <a href="" className="nav-link ">Home</a>
-                <a href="" className="nav-link active">ChatBot</a>
-                <a href="" className="nav-link ">Contact</a>
+                <a href="/home" className="nav-link ">Home</a>
+                <a href="/chatbot" className="nav-link active">ChatBot</a>
+                <a href="contact" className="nav-link ">Contact</a>
             </div>
             
             <div className="login">Login</div>

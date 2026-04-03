@@ -10,7 +10,6 @@ export default function ChatInput({messages, setMessages}){
 
     function sendMessage(){
         if (inputText === ''){
-            // alert("Cannot send the empty message~")
             return
         }
         const newUserMessage = [
@@ -31,13 +30,18 @@ export default function ChatInput({messages, setMessages}){
                 content: "Sorry~ So far AI function does not available!"
             }
         ]
-
         
         setTimeout(()=>{
             setMessages(newBotMessage)
         },1500)
 
         setInputText("")
+    }
+    
+    const keyEnter = e=>{
+        if (e.key==='Enter') sendMessage()
+
+        if (e.key==='Escape') e.target.blur()
     }
 
     return (
@@ -48,10 +52,18 @@ export default function ChatInput({messages, setMessages}){
                         className='chat-input' 
                         placeholder='Enter the message'
                         onChange={updateInputText}
+                        onKeyDown={keyEnter}
                         value={inputText}
                     />
 
-                    <button className='chat-sendbtn' onClick={sendMessage}>Send</button>
+                    <button className='chat-sendbtn' 
+                    onClick={sendMessage}
+                    style={{
+                        cursor: inputText ==="" ? 'not-allowed': "pointer"
+                    }}
+                    >
+                        Send
+                    </button>
 
                 </div>
         </div>
