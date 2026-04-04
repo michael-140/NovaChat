@@ -51,7 +51,7 @@ export default function ChatBotSideBar({chatHistories,setChatHistories,currentHi
 
             <div className="chat-histories-container">
                 <div className='chat-subtitle'>
-                    <span className={!isSideBarMax && "hidden-class"}>Chat History</span>
+                    <span className={isSideBarMax?"":"hidden-class"}>Chat History</span>
                 </div>
 
                 <div className="chat-hisories">

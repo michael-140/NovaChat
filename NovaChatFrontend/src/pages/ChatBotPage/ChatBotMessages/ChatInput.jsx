@@ -1,21 +1,31 @@
 import { useState } from 'react'
 import './ChatInput.css'
+import {WarnWindow} from '../../../components/WarnWindow'
 
 export default function ChatInput({chatHistories, setChatHistories, currentHistory,setCurrentHistory}){
 
     const [inputText, setInputText] = useState('')
+    const [warnMessage, setWarnMessage] = useState('')
 
     function updateInputText(e){
         setInputText(e.target.value)
     }
 
     function sendMessage(){
-        if (inputText === ''){
+        // avoid empty input and wait bot fully response
+        if (!inputText.trim()){
             return
         }
 
         let pervMessages = currentHistory.content || []
         let firstMessages = pervMessages[0]? pervMessages[0].content:[]
+        const lastMessage = pervMessages[pervMessages.length - 1]
+
+        if (lastMessage && lastMessage.sender !== 'bot'){
+            setWarnMessage("Please wait for response before sending new message~")
+            setTimeout(()=>{setWarnMessage("")},5000)
+            return
+        }
 
         // updating the state of user asking
         const newMessage = {
@@ -92,27 +102,30 @@ export default function ChatInput({chatHistories, setChatHistories, currentHisto
     }
 
     return (
-        <div className="chat-input-container">
-                <div className="chat-input-box">
+        <>
+            <div className="chat-input-container">
+                    <div className="chat-input-box">
 
-                    <input 
-                        className='chat-input' 
-                        placeholder='Enter the message'
-                        onChange={updateInputText}
-                        onKeyDown={keyEnter}
-                        value={inputText}
-                    />
+                        <input 
+                            className='chat-input' 
+                            placeholder='Enter the message'
+                            onChange={updateInputText}
+                            onKeyDown={keyEnter}
+                            value={inputText}
+                        />
 
-                    <button className='chat-sendbtn' 
-                    onClick={sendMessage}
-                    style={{
-                        cursor: inputText ==="" ? 'not-allowed': "pointer"
-                    }}
-                    >
-                        Send
-                    </button>
+                        <button className='chat-sendbtn' 
+                        onClick={sendMessage}
+                        style={{
+                            cursor: inputText ==="" ? 'not-allowed': "pointer"
+                        }}
+                        >
+                            Send
+                        </button>
+                    </div>
+            </div>
+            <WarnWindow warnMessage={warnMessage}/>
+        </>
 
-                </div>
-        </div>
     )
 }

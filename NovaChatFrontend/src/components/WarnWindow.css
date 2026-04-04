@@ -1,0 +1,16 @@
+.warning-container-shown{
+    /* border: 3px solid rgb(231, 31, 31); */
+    border-radius: 50px;
+    color: white;
+    background-color: rgba(7, 40, 64, 0.66);
+    position: absolute;
+    top: calc(var(--header-height) + 40px);
+    right: 20px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 1px 3px 3px black, 2px -1px 1px black inset, 3px 2px 1px white inset;
+}
+
+.warning-container{
+    display: none;
+}
