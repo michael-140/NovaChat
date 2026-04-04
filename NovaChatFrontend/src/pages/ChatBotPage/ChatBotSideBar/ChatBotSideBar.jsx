@@ -1,5 +1,5 @@
 import './ChatBotSideBar.css'
-
+import {useState} from 'react'
 function ChatHistory({ currentHistoryid,history,setCurrentHistory }) {
     
     const changeCurrentChat = ()=>{
@@ -20,6 +20,8 @@ function ChatHistory({ currentHistoryid,history,setCurrentHistory }) {
 
 export default function ChatBotSideBar({chatHistories,setChatHistories,currentHistory,setCurrentHistory}) {
 
+    const [isSideBarMax, setIsSideBarMax] = useState(true)
+
     function AddNewChat(){
 
         const newHistory = {
@@ -33,21 +35,30 @@ export default function ChatBotSideBar({chatHistories,setChatHistories,currentHi
         setCurrentHistory(newHistories[0])
     }
 
+    function changeSideBarSize(){
+        setIsSideBarMax(!isSideBarMax)
+    }
+
 
     return (
 
-        <div className="chat-sidebar">
+        <div className={isSideBarMax?
+        "chat-sidebar max-side-bar" : "chat-sidebar min-side-bar"}>
             
-            <img className="menuIcon" src='/memuIcon.svg'></img>
+            <button className={isSideBarMax?"menuIcon": " menuIcon-Center"} onClick={changeSideBarSize} >
+                <img  src='/memuIcon.svg'></img>
+            </button>
 
             <div className="chat-histories-container">
-                <div className='chat-subtitle'><span>Chat History</span></div>
+                <div className='chat-subtitle'>
+                    <span className={!isSideBarMax && "hidden-class"}>Chat History</span>
+                </div>
 
                 <div className="chat-hisories">
 
                     <div className="new-chat-history" onClick={AddNewChat}>
-                        <img className='new-chat-icon' src='/newChatIcon.svg'></img>
-                        <div className="new-sidebar-chat-topic">
+                        <img className={isSideBarMax?'new-chat-icon':'new-chat-icon new-chat-icon-center'} src='/newChatIcon.svg'></img>
+                        <div className={isSideBarMax?"new-sidebar-chat-topic":"hidden-class"}>
                             <span>New Chat</span>
                         </div>
                     </div>
