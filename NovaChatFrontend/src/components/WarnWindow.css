@@ -8,9 +8,16 @@
     right: 20px;
     padding: 20px;
     width: 300px;
-    box-shadow: 1px 3px 3px black, 2px -1px 1px black inset, 3px 2px 1px white inset;
+    box-shadow: 1px 3px 3px black, 
+                2px -1px 1px black inset,
+                3px 1px 1px white inset,
+                -2px -1px 1px black inset,
+                -3px 1px 1px white inset;
+    background-image: linear-gradient(rgba(162, 169, 174, 0.933),rgb(59, 60, 63));
+
 }
 
 .warning-container{
     display: none;
+
 }

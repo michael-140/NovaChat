@@ -47,7 +47,6 @@ export default function ChatBotMessages({ chatHistories, setChatHistories, curre
             </div>
 
             <ChatInput
-                chatHistories={chatHistories}
                 setChatHistories={setChatHistories}
                 currentHistory={currentHistory}
                 setCurrentHistory={setCurrentHistory}

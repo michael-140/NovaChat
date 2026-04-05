@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './ChatInput.css'
 import {WarnWindow} from '../../../components/WarnWindow'
 
-export default function ChatInput({chatHistories, setChatHistories, currentHistory,setCurrentHistory}){
+export default function ChatInput({setChatHistories, currentHistory,setCurrentHistory}){
 
     const [inputText, setInputText] = useState('')
     const [warnMessage, setWarnMessage] = useState('')
@@ -11,35 +11,32 @@ export default function ChatInput({chatHistories, setChatHistories, currentHisto
         setInputText(e.target.value)
     }
 
-    function sendMessage(){
-        // avoid empty input and wait bot fully response
-        if (!inputText.trim()){
-            return
-        }
+    // save the latest message 
+    function updateResponse(sender){
 
         let pervMessages = currentHistory.content || []
         let firstMessages = pervMessages[0]? pervMessages[0].content:[]
         const lastMessage = pervMessages[pervMessages.length - 1]
 
+        // wait bot fully response
         if (lastMessage && lastMessage.sender !== 'bot'){
             setWarnMessage("Please wait for response before sending new message~")
             setTimeout(()=>{setWarnMessage("")},5000)
             return
         }
 
-        // updating the state of user asking
         const newMessage = {
             id: crypto.randomUUID(),
-            sender: "user",
+            sender: sender,
             content: inputText
         }
 
         const activeHistory = Object.keys(currentHistory).length === 0?
-        {
+        { // create a new one if empty
             id: crypto.randomUUID(),
             topic: newMessage.content.slice(0,10) +"...",
             content: []
-        }: currentHistory
+        }: currentHistory // use the current history
 
         const newUserHistory = {
             ...activeHistory,
@@ -50,19 +47,11 @@ export default function ChatInput({chatHistories, setChatHistories, currentHisto
             ]
         }
 
-
         setCurrentHistory(newUserHistory);
         setInputText("");
 
-        // update the ai response 
-        
+        // for the ai response 
         setTimeout(()=>{
-
-            const botMessage = {
-                id: crypto.randomUUID(),
-                sender: "bot",
-                content: "Sorry~ So far AI function does not available!"
-            }
 
             // update the topic
             firstMessages = newUserHistory.content[0].content    
@@ -72,12 +61,16 @@ export default function ChatInput({chatHistories, setChatHistories, currentHisto
                 topic:firstMessages.slice(0,10) +"...",
                 content: [
                     ...newUserHistory.content,
-                    botMessage
+                    {
+                        id: crypto.randomUUID(),
+                        sender: "bot",
+                        content: "Sorry~ So far AI function does not available!"
+                    }
                 ]
             }
             
             setCurrentHistory(newBotHistory)
-
+        
             setChatHistories((prev) => {
                 const list = prev || []
                 const isExisting = list.some(h => h.id === newBotHistory.id)
@@ -91,8 +84,15 @@ export default function ChatInput({chatHistories, setChatHistories, currentHisto
                 }
             });
         },1000)
+    }
 
-        setInputText("")
+    function sendMessage(){
+        // avoid empty input 
+        if (!inputText.trim()){
+            return
+        }
+
+        updateResponse("user")
     }
     
     const keyEnter = e=>{
