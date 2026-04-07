@@ -90,6 +90,10 @@
     cursor: pointer;
 }
 
+.chat-container{
+    position: relative;
+}
+
 
 .new-chat-history, .chat-history{
     display: flex;
@@ -105,6 +109,27 @@
 .new-chat-history:hover, .chat-history:hover{
     background-color: rgba(5, 12, 219, 0.342);
     box-shadow: 1px 1px 3px rgb(8, 17, 148);
+}
+
+
+.switch-chat-btn{
+    width: 100%;
+    height: 100%;
+}
+
+.close-btn{
+    background-color: transparent;
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    border-radius: 10px;
+    padding: 10px;
+
+}
+
+.close-btn:hover{
+    background-color: rgb(175, 184, 184);
 }
 
 .new-sidebar-chat-topic, .sidebar-chat-topic{

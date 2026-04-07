@@ -80,7 +80,7 @@ export default function ChatInput({setChatHistories, currentHistory,setCurrentHi
                     return list.map(h => h.id === newBotHistory.id ? newBotHistory : h);
                 } else {
                     // Add the  new chat 
-                    return [newBotHistory];
+                    return [newBotHistory, ...list];
                 }
             });
         },1000)

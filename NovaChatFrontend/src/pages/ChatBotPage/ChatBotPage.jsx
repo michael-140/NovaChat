@@ -47,7 +47,23 @@ export function ChatBotPage() {
                     content: "hi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
                 }
             ]
-        }, 
+        },{
+            id: crypto.randomUUID(),
+            topic: "topic3",
+            content: [
+                {
+                    id: crypto.randomUUID(),
+                    sender: "user",
+                    content: "hi!"
+                }, {
+                    id: crypto.randomUUID(),
+                    sender: "bot",
+                    content: "hi I  bot"
+                }
+            ]
+        },
+        
+        
     ]
 
     // chat always create one instead of null

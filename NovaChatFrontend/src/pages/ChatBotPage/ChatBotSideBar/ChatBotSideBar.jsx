@@ -1,19 +1,35 @@
 import './ChatBotSideBar.css'
 import {useState} from 'react'
-function ChatHistory({ currentHistoryid,history,setCurrentHistory }) {
+
+function ChatHistory({ chatHistories,setChatHistories,currentHistoryid,history,setCurrentHistory }) {
     
     const changeCurrentChat = ()=>{
         setCurrentHistory(history)
+
+    }
+
+    const delChat =  ()=>{
+
+        setChatHistories(prevHistories => 
+            prevHistories.filter(hist => hist.id !== history.id)
+        )
+
+        if (currentHistoryid === history.id) {
+            setCurrentHistory({}); 
+        }
     }
 
     return (
-        <button onClick={changeCurrentChat}>
-            <div className={currentHistoryid===history.id? "history-active chat-history": "chat-history"}>
-                <div className="sidebar-chat-topic">
-                    <span>{history.topic}</span>
+        <div className='chat-container'>
+            <button className='switch-chat-btn' onClick={changeCurrentChat}>
+                <div className={currentHistoryid===history.id? "history-active chat-history": "chat-history"}>
+                    <div className="sidebar-chat-topic">
+                        <span>{history.topic}</span>
+                    </div>
                 </div>
-            </div>
-        </button>
+            </button>
+            <button className="close-btn" onClick={delChat}>X</button>
+        </div>
 
     )
 }
@@ -68,6 +84,8 @@ export default function ChatBotSideBar({chatHistories,setChatHistories,currentHi
                         chatHistories.map((history) => {
                             return <ChatHistory 
                                         history={history} 
+                                        chatHistories={chatHistories}
+                                        setChatHistories={setChatHistories}
                                         setCurrentHistory={setCurrentHistory}
                                         currentHistoryid={currentHistory.id}
                                         key={history.id} 
