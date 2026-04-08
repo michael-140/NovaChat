@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router'
 import './Header.css'
 
 export default function Header() {
@@ -5,23 +6,24 @@ export default function Header() {
         <header className="header">
 
             <div className="icon">
-                <a href="/home">
+                <NavLink to="/home" className={(isActive)=>{isActive &&''}}>
                     <img src="/novachatIcon.svg" alt="NovaChat Icon" className="icon-image" />
-                </a>
-                <a href="/home">
+                </NavLink>
+
+                <NavLink to="/home" className={(isActive)=>{isActive&& ''}} >
                     <span>NovaChat</span>
-                </a>
+                </NavLink>
 
             </div>
 
             <div className="navigation">
-                <a href="/home" className="nav-link ">Home</a>
-                <a href="/chatbot" className="nav-link active">ChatBot</a>
-                <a href="/contact" className="nav-link ">Contact</a>
+                <NavLink to="/home" className="nav-link ">Home</NavLink>
+                <NavLink to="/chatbot" className="nav-link">ChatBot</NavLink>
+                <NavLink to="/contact" className="nav-link ">Contact</NavLink>
             </div>
             
             <div href="/login" className="login">
-                <a href="/login" className="nav-link">Login</a>
+                <NavLink to="/login" className="nav-link">Login</NavLink>
             </div>
 
         </header>

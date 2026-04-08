@@ -1,7 +1,7 @@
 .chatbot-container{
     
     margin-top: var(--header-height);
-    height: calc(100vh - var(--header-height) - 30px);
+    height: var(--content-height);
     border: 1px solid rgb(252, 252, 252);
 
 }
