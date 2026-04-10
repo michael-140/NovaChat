@@ -1,5 +1,7 @@
 import './ChatBotSideBar.css'
 import {useState} from 'react'
+import newChatIcon from  '../../../images/newChatIcon.svg'
+import menuIcon from  '../../../images/menuIcon.svg'
 
 function ChatHistory({ chatHistories,setChatHistories,currentHistoryid,history,setCurrentHistory }) {
     
@@ -62,7 +64,7 @@ export default function ChatBotSideBar({chatHistories,setChatHistories,currentHi
         "chat-sidebar max-side-bar" : "chat-sidebar min-side-bar"}>
             
             <button className={isSideBarMax?"menuIcon": " menuIcon-Center"} onClick={changeSideBarSize} >
-                <img  src='/memuIcon.svg'></img>
+                <img  src={menuIcon}></img>
             </button>
 
             <div className="chat-histories-container">
@@ -73,7 +75,7 @@ export default function ChatBotSideBar({chatHistories,setChatHistories,currentHi
                 <div className="chat-hisories">
 
                     <div className="new-chat-history" onClick={AddNewChat}>
-                        <img className={isSideBarMax?'new-chat-icon':'new-chat-icon new-chat-icon-center'} src='/newChatIcon.svg'></img>
+                        <img className={isSideBarMax?'new-chat-icon':'new-chat-icon new-chat-icon-center'} src={newChatIcon}></img>
                         <div className={isSideBarMax?"new-sidebar-chat-topic":"hidden-class"}>
                             <span>New Chat</span>
                         </div>
