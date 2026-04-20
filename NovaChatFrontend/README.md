@@ -1,16 +1,40 @@
-# React + Vite
+# NovaChat Frontend 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+NovaChat is a sleek, AI-powered conversation interface built with **React**. It features a modern "Glassmorphic" UI, dynamic state management, and an interactive sidebar for a professional chat experience.
 
-Currently, two official plugins are available:
+## ✨ Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 1. Dynamic Chat Management
+- **Chat Histories**: Users can create multiple chat sessions, which are tracked and managed in the global state.
+- **Sidebar Controls**: A responsive sidebar that allows users to switch between chats or delete specific histories.
+- **Collapsible UI**: The sidebar can be toggled between "Max" and "Min" sizes to optimize screen real estate.
 
-## React Compiler
+### 2. Intelligent Message Interface
+- **Auto-Scrolling**: The chat window automatically scrolls to the latest message whenever a new one is added.
+- **Dynamic Topics**: The system automatically generates a chat topic title based on the first few characters of the opening message.
+- **Sender Distinction**: Distinct visual styling and icons for "User" vs "Bot" messages.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 3. Smart Input System
+- **Anti-Spam Warning**: Includes a `WarnWindow` component that prevents users from sending new messages while waiting for an AI response.
+- **Keyboard Support**: Full support for `Enter` to send and `Escape` to blur the input focus.
+- **Validation**: Prevents empty messages from being sent to maintain chat quality.
 
-## Expanding the ESLint configuration
+Adding a New Chat
+Users can click the "New Chat" button in the sidebar to reset the workspace. The system automatically generates a temporary topic title based on the first few characters of the user's first message.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Message Flow
+1. Click the ChatBot in the header
+2. Enters text in Chat Input.
+3. The system validates that the input is not empty and is not waiting message state
+4. A "User" message is added to the active history.
+5. After a 1-second delay (simulated AI processing), a "Bot" response is appended, and the global chatHistories list is updated.
+6. The sidebar will be also updated and append to the new chat history.
+
+        The AI response is "Sorry~ So far AI function does not available!" because the backend and AI model still in progress.
+
+## 🚀 Getting Started
+
+1. **Clone the project**
+2. **Install dependencies**: `npm install`
+3. **Run the dev server**: `npm run dev`
+4. **Open**`http://localhost:5173/`

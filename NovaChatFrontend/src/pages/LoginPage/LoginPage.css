@@ -17,7 +17,8 @@
     flex-direction: column;
 
     width: 40%;
-    height: 80%;
+    height: 60%;
+    max-height: 500px;
     overflow: scroll;
     border: 3px solid var(--primary-purple);
 }
@@ -40,7 +41,7 @@
 .input-containers{
     display: flex;
     flex-direction: column;
-    flex: 2;
+    flex: 1;
 }
 
 .input-container{
