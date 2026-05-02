@@ -44,7 +44,7 @@ export default function ChatBotSideBar({chatHistories,setChatHistories,currentHi
 
         const newHistory = {
                 id: crypto.randomUUID(),
-                topic: 'Let\' start the chat!', // [Update] ask the backend 
+                topic: 'side barLet\'s start the chat!', // [Update] ask the backend 
                 content: []
         }
         const newHistories = chatHistories? [newHistory, ...chatHistories]:[newHistory]

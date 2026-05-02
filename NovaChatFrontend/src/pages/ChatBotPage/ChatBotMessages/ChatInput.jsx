@@ -1,27 +1,28 @@
 import { useState } from 'react'
 import './ChatInput.css'
-import {WarnWindow} from '../../../components/WarnWindow'
+import { WarnWindow } from '../../../components/WarnWindow'
+import socket from '../../../socket'
 
-export default function ChatInput({setChatHistories, currentHistory,setCurrentHistory}){
+export default function ChatInput({ setChatHistories, currentHistory, setCurrentHistory }) {
 
     const [inputText, setInputText] = useState('')
     const [warnMessage, setWarnMessage] = useState('')
 
-    function updateInputText(e){
+    function updateInputText(e) {
         setInputText(e.target.value)
     }
 
     // save the latest message 
-    function updateResponse(sender){
+    function updateResponse(sender) {
 
         let pervMessages = currentHistory.content || []
-        let firstMessages = pervMessages[0]? pervMessages[0].content:[]
         const lastMessage = pervMessages[pervMessages.length - 1]
+        let firstMessage = pervMessages[0] || []
 
         // wait bot fully response
-        if (lastMessage && lastMessage.sender !== 'bot'){
+        if (lastMessage && lastMessage.sender !== 'bot') {
             setWarnMessage("Please wait for response before sending new message~")
-            setTimeout(()=>{setWarnMessage("")},5000)
+            setTimeout(() => { setWarnMessage("") }, 5000)
             return
         }
 
@@ -31,101 +32,79 @@ export default function ChatInput({setChatHistories, currentHistory,setCurrentHi
             content: inputText
         }
 
-        const activeHistory = Object.keys(currentHistory).length === 0?
-        { // create a new one if empty
-            id: crypto.randomUUID(),
-            topic: newMessage.content.slice(0,10) +"...",
-            content: []
-        }: currentHistory // use the current history
+        socket.emit('sendMessage', newMessage.content)
+        let activeHistory;
 
-        const newUserHistory = {
-            ...activeHistory,
-            topic:firstMessages.slice(0,10) +"...",
-            content: [
-                ...pervMessages,
-                newMessage
-            ]
-        }
-
-        setCurrentHistory(newUserHistory);
-        setInputText("");
-
-        // for the ai response 
-        setTimeout(()=>{
-
-            // update the topic
-            firstMessages = newUserHistory.content[0].content    
-
-            const newBotHistory = {
-                ...newUserHistory,
-                topic:firstMessages.slice(0,10) +"...",
-                content: [
-                    ...newUserHistory.content,
-                    {
-                        id: crypto.randomUUID(),
-                        sender: "bot",
-                        content: "Sorry~ So far AI function does not available!"
-                    }
-                ]
+        if (Object.keys(currentHistory).length === 0){
+            activeHistory = { // create a new one if empty
+                id: crypto.randomUUID(),
+                topic: newMessage.content.slice(0, 10) + "...",
+                content: []
             }
-            
-            setCurrentHistory(newBotHistory)
-        
-            setChatHistories((prev) => {
-                const list = prev || []
-                const isExisting = list.some(h => h.id === newBotHistory.id)
+        }else if (currentHistory.content.length === 0) {
+            activeHistory = {
+            ...currentHistory,
+            topic: newMessage.content.slice(0, 10) + "..."
+            }
+        }else activeHistory = currentHistory
 
-                if (isExisting) {
-                    // Update existing record in the list
-                    return list.map(h => h.id === newBotHistory.id ? newBotHistory : h);
-                } else {
-                    // Add the  new chat 
-                    return [newBotHistory, ...list];
+
+                const newUserHistory = {
+                    ...activeHistory,
+                    content: [
+                        ...pervMessages,
+                        newMessage
+                    ]
                 }
-            });
-        },1000)
-    }
 
-    function sendMessage(){
-        // avoid empty input 
-        if (!inputText.trim()){
-            return
+                setCurrentHistory(newUserHistory);
+
+                setChatHistories(prev => prev.map(h =>
+                    h.id === newUserHistory.id ? newUserHistory : h
+                ));
+                setInputText("");
+            }
+
+        function sendMessage() {
+            // avoid empty input 
+            if (!inputText.trim()) {
+                return
+            }
+
+            updateResponse("user")
         }
 
-        updateResponse("user")
-    }
-    
-    const keyEnter = e=>{
-        if (e.key==='Enter') sendMessage()
+        const keyEnter = e => {
+            if (e.key === 'Enter') sendMessage()
 
-        if (e.key==='Escape') e.target.blur()
-    }
+            if (e.key === 'Escape') e.target.blur()
+        }
 
-    return (
-        <>
-            <div className="chat-input-container">
+        return ( // input box 
+            <>
+                <div className="chat-input-container">
                     <div className="chat-input-box">
 
-                        <input 
-                            className='chat-input' 
+                        <input
+                            className='chat-input'
                             placeholder='Enter the message'
                             onChange={updateInputText}
                             onKeyDown={keyEnter}
                             value={inputText}
                         />
 
-                        <button className='chat-sendbtn' 
-                        onClick={sendMessage}
-                        style={{
-                            cursor: inputText ==="" ? 'not-allowed': "pointer"
-                        }}
+                        <button className='chat-sendbtn'
+                            onClick={sendMessage}
+                            style={{
+                                cursor: inputText === "" ? 'not-allowed' : "pointer"
+                            }}
                         >
                             Send
                         </button>
                     </div>
-            </div>
-            <WarnWindow warnMessage={warnMessage}/>
-        </>
+                </div>
+                <WarnWindow warnMessage={warnMessage} />
+            </>
 
-    )
-}
+        )
+    }

@@ -9,7 +9,7 @@ const stimulateResponse = {
 function sendToAI(message) {
     // pass to message to ai 
     // Use fixed question to stimulate AI response
-    return stimulateResponse[message] || "Sorry~ So far AI function does not available! but you can try the following question:\n1. hi\n2.hello\n3.bye\n4.help\n5.who are you"
+    return stimulateResponse[message] || "Sorry~ So far AI function does not available! but you can try the following question:\n1. hi\n2. hello\n3. bye\n4. help\n5. who are you"
 }
 
 module.exports = sendToAI
