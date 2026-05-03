@@ -3,7 +3,7 @@ import './ChatInput.css'
 import { WarnWindow } from '../../../components/WarnWindow'
 import socket from '../../../socket'
 
-export default function ChatInput({ setChatHistories, currentHistory, setCurrentHistory }) {
+export default function ChatInput({ setChatHistories, currentHistory, setCurrentHistory, syncWithBackend }) {
 
     const [inputText, setInputText] = useState('')
     const [warnMessage, setWarnMessage] = useState('')
@@ -17,7 +17,6 @@ export default function ChatInput({ setChatHistories, currentHistory, setCurrent
 
         let pervMessages = currentHistory.content || []
         const lastMessage = pervMessages[pervMessages.length - 1]
-        let firstMessage = pervMessages[0] || []
 
         // wait bot fully response
         if (lastMessage && lastMessage.sender !== 'bot') {
@@ -63,6 +62,7 @@ export default function ChatInput({ setChatHistories, currentHistory, setCurrent
                     h.id === newUserHistory.id ? newUserHistory : h
                 ));
                 setInputText("");
+                syncWithBackend(newUserHistory)
             }
 
         function sendMessage() {

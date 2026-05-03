@@ -1,0 +1,90 @@
+[
+  {
+    "id": "bbf0ff43-41b1-46d3-8c77-4c45ba7c998e",
+    "topic": "bye...",
+    "content": [
+      {
+        "id": "d7ca3c88-5c17-4b41-8249-b0db6334be70",
+        "sender": "user",
+        "content": "bye"
+      },
+      {
+        "id": "e24b0cd4-ba94-4007-9a28-71cf9323c93c",
+        "sender": "bot",
+        "content": "Goodbye! Have a great day!"
+      }
+    ]
+  },
+  {
+    "id": "27489935-6ad3-4d36-a8eb-a784b60bed2a",
+    "topic": "help...",
+    "content": [
+      {
+        "id": "b6987e08-69e1-4ba2-aa21-45c9de8aeaa9",
+        "sender": "user",
+        "content": "help"
+      },
+      {
+        "id": "d4af74f2-f070-4b55-b3a1-8136f69fb7ec",
+        "sender": "bot",
+        "content": "You can ask me about account settings or how to start a new chat."
+      },
+      {
+        "id": "c5912376-f60d-434a-ba45-55c414460ebb",
+        "sender": "user",
+        "content": "ok"
+      },
+      {
+        "id": "ca660837-ca3e-4ea5-9382-ce021d1716a3",
+        "sender": "bot",
+        "content": "Sorry~ So far AI function does not available! but you can try the following question:\n1. hi\n2. hello\n3. bye\n4. help\n5. who are you"
+      },
+      {
+        "id": "bc994bdc-9ca0-4711-8a44-2f53ca20a5c7",
+        "sender": "user",
+        "content": "bye"
+      },
+      {
+        "id": "a253c599-2976-4bd3-b6c1-50013d5196c7",
+        "sender": "bot",
+        "content": "Goodbye! Have a great day!"
+      }
+    ]
+  },
+  {
+    "id": "53d1b3e1-ab9d-447b-8995-a337cac5cc69",
+    "topic": "hi...",
+    "content": [
+      {
+        "id": "feb01bfa-d7dc-4875-8b77-a9a39012a9f9",
+        "sender": "user",
+        "content": "hi"
+      },
+      {
+        "id": "2b353d86-f3f8-4d02-bdd1-e8f999b38633",
+        "sender": "bot",
+        "content": "Hello! How can I help you with NovaChat today?"
+      },
+      {
+        "id": "9f955da6-3d38-4edb-b13c-1e24f053d428",
+        "sender": "user",
+        "content": "who are you"
+      },
+      {
+        "id": "6e163abe-a413-4c7b-8a2c-38517adcb422",
+        "sender": "bot",
+        "content": "I am Nova, the friendly chatbot for this platform!"
+      },
+      {
+        "id": "2429112c-a87c-4a7f-8f9b-f5ffead4312e",
+        "sender": "user",
+        "content": "bye"
+      },
+      {
+        "id": "25033f8c-0f8c-479d-91c4-2c74f4e201d6",
+        "sender": "bot",
+        "content": "Goodbye! Have a great day!"
+      }
+    ]
+  }
+]

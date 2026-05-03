@@ -4,6 +4,7 @@ const {Server} = require("socket.io")
 const cors = require("cors")
 const session = require('express-session')
 const chatSocket = require('./chatSocket')
+const chatRoutes = require('./routes/chatRoutes')
 
 const app = express()
 const httpServer = http.createServer(app)
@@ -34,8 +35,10 @@ chatSocket(io)
 
 
 app.get('/', (req, res)=>{
-    res.send("hi")
+    res.send("Hi! Welcome to NovaChat backend server!")
 })
+
+app.use('/api', chatRoutes)
 
 const PORT = process.env.PORT || 8000
 httpServer.listen(PORT, ()=>{

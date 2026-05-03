@@ -3,7 +3,6 @@ const sendToAI = require('./ai/model')
 module.exports = (io) =>{
     io.on('connection', (socket)=>{
         console.log("User connected: ", socket.id)
-        
         socket.on('sendMessage', (data)=>{
             console.log("User message: ",data)
             const responseFromAI = sendToAI(data)

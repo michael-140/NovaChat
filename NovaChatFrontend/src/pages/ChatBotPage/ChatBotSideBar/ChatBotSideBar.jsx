@@ -3,7 +3,7 @@ import {useState} from 'react'
 import newChatIcon from  '../../../images/newChatIcon.svg'
 import menuIcon from  '../../../images/menuIcon.svg'
 
-function ChatHistory({ chatHistories,setChatHistories,currentHistoryid,history,setCurrentHistory }) {
+function ChatHistory({setChatHistories,currentHistoryid,history,setCurrentHistory}) {
     
     const changeCurrentChat = ()=>{
         setCurrentHistory(history)
@@ -19,6 +19,9 @@ function ChatHistory({ chatHistories,setChatHistories,currentHistoryid,history,s
         if (currentHistoryid === history.id) {
             setCurrentHistory({}); 
         }
+        fetch('http://localhost:8000/api/updateChatHistory/' + history.id, {
+            method: 'DELETE'
+        })
     }
 
     return (
@@ -36,7 +39,7 @@ function ChatHistory({ chatHistories,setChatHistories,currentHistoryid,history,s
     )
 }
 
-export default function ChatBotSideBar({chatHistories,setChatHistories,currentHistory,setCurrentHistory}) {
+export default function ChatBotSideBar({chatHistories,setChatHistories,currentHistory,setCurrentHistory,syncWithBackend}) {
 
     const [isSideBarMax, setIsSideBarMax] = useState(true)
 
@@ -44,13 +47,14 @@ export default function ChatBotSideBar({chatHistories,setChatHistories,currentHi
 
         const newHistory = {
                 id: crypto.randomUUID(),
-                topic: 'side barLet\'s start the chat!', // [Update] ask the backend 
+                topic: 'Let\'s start the chat!',
                 content: []
         }
         const newHistories = chatHistories? [newHistory, ...chatHistories]:[newHistory]
 
         setChatHistories(newHistories)
         setCurrentHistory(newHistories[0])
+        syncWithBackend(newHistory) // save the new chat to backend
     }
 
     function changeSideBarSize(){

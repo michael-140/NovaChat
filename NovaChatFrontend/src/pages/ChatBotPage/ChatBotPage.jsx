@@ -2,77 +2,37 @@ import './ChatBotPage.css'
 import Header from '../../components/Header'
 import ChatBotSideBar from './ChatBotSideBar/ChatBotSideBar'
 import ChatBotMessages from './ChatBotMessages/ChatBotMessages'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
 
 
 export function ChatBotPage() {
-    const data = [ // [Update] get the histoies from backend 
-        {
-            id: crypto.randomUUID(),
-            topic: "Topic1Topic1Topic1Topic1",
-            content: [
-                {
-                    id: crypto.randomUUID(),
-                    sender: "user",
-                    content: "hi!"
-                }, {
-                    id: crypto.randomUUID(),
-                    sender: "bot",
-                    content: "hi I  bot"
-                }
-            ]
-        },{
-            id: crypto.randomUUID(),
-            topic: "Topic2",
-            content: [
-                {
-                    id: crypto.randomUUID(),
-                    sender: "user",
-                    content: "hi I amasd bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-                }, {
-                    id: crypto.randomUUID(),
-                    sender: "bot",
-                    content: "hi I asdam bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-                }, {
-                    id: crypto.randomUUID(),
-                    sender: "user",
-                    content: "hi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi asdI am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-                }, {
-                    id: crypto.randomUUID(),
-                    sender: "user",
-                    content: "hi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am asdbothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-                }, {
-                    id: crypto.randomUUID(),
-                    sender: "bot",
-                    content: "hi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bothi I am bot"
-                }
-            ]
-        },{
-            id: crypto.randomUUID(),
-            topic: "topic3",
-            content: [
-                {
-                    id: crypto.randomUUID(),
-                    sender: "user",
-                    content: "hi!"
-                }, {
-                    id: crypto.randomUUID(),
-                    sender: "bot",
-                    content: "hi I  bot"
-                }
-            ]
-        },
-        
-        
-    ]
 
-    // chat always create one instead of null
-    // const [chatHistories, setChatHistories] = useState(data)
-    // const [currentHistory,setCurrentHistory] = useState(data[0])
-    
     const [chatHistories, setChatHistories] = useState([])
-    const [currentHistory,setCurrentHistory] = useState({})
-    
+    const [currentHistory, setCurrentHistory] = useState({})
+
+    useEffect(() => { // fetch chat histories from backend
+        fetch('http://localhost:8000/api/chatHistories')
+            .then(res => res.json()).then(data => {
+                setChatHistories(data)
+            })
+    }, [])
+
+    const syncWithBackend = async (chatToSave) => {
+        try {
+            if (chatToSave && chatToSave.id) {
+                fetch('http://localhost:8000/api/updateChatHistory', {
+                method: 'POST',
+                headers: { 'content-Type': 'application/json' },
+                body: JSON.stringify(chatToSave)
+                })
+            }
+            // console.log("current history updated")
+        } catch (err) {
+            // console.error("Failed to sync with backend", err)
+        }
+    }
+
     return (
         <>
             <Header />
@@ -81,19 +41,21 @@ export function ChatBotPage() {
 
                 <div className="chatbot">
 
-                    <ChatBotSideBar 
+                    <ChatBotSideBar
                         chatHistories={chatHistories}
                         setChatHistories={setChatHistories}
-                        currentHistory={currentHistory} 
+                        currentHistory={currentHistory}
                         setCurrentHistory={setCurrentHistory}
+                        syncWithBackend = {syncWithBackend}
                     />
 
                     {/* always put the latest chat history first */}
-                    <ChatBotMessages 
+                    <ChatBotMessages
                         chatHistories={chatHistories}
                         setChatHistories={setChatHistories}
-                        currentHistory={currentHistory} 
+                        currentHistory={currentHistory}
                         setCurrentHistory={setCurrentHistory}
+                        syncWithBackend = {syncWithBackend}
                     />
 
                 </div>

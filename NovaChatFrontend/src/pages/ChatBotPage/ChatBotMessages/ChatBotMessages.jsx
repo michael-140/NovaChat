@@ -18,7 +18,7 @@ function Message({ sender, content }) {
     );
 }
 
-export default function ChatBotMessages({ chatHistories, setChatHistories, currentHistory, setCurrentHistory }) {
+export default function ChatBotMessages({ chatHistories, setChatHistories, currentHistory, setCurrentHistory,syncWithBackend }) {
 
     const chatMessageRef = useRef(null)
 
@@ -31,13 +31,15 @@ export default function ChatBotMessages({ chatHistories, setChatHistories, curre
 
     useEffect(()=>{ // listener for ai response 
         socket.on('messageResponse',(aiResponse)=>{
-            
-            const newContent = currentHistory.content? [...currentHistory.content, aiResponse]: [aiResponse]
 
-            setCurrentHistory(prev=>({
-                ...prev,
-                content: [...prev.content, aiResponse]
-            }))
+            setCurrentHistory(prev=>{
+                const updated = {
+                    ...prev,
+                    content: [...prev.content, aiResponse]
+                }
+                syncWithBackend(updated)
+                return updated
+            })
             
             setChatHistories((prev) => {
                 const list = prev || []
@@ -52,9 +54,10 @@ export default function ChatBotMessages({ chatHistories, setChatHistories, curre
                 }
             });
 
+
         })
         return () => socket.off('messageResponse');
-    }, [currentHistory.id, chatHistories.id])
+    }, [currentHistory.id, chatHistories.id, setCurrentHistory, setChatHistories, syncWithBackend, currentHistory])
 
     return (
         <div className="chat-messages-container">
@@ -78,6 +81,7 @@ export default function ChatBotMessages({ chatHistories, setChatHistories, curre
                 setChatHistories={setChatHistories}
                 currentHistory={currentHistory}
                 setCurrentHistory={setCurrentHistory}
+                syncWithBackend={syncWithBackend}
             />
         </div>
     )
