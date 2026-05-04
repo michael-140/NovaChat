@@ -5,9 +5,18 @@ This is a practice project that deply a AI chatbot with an another UI style.
 ## We can divide this project into three main parts:
 1. Frontend (React+vite)
     - Home 
+    ![NovaChat Demo](./demo/homePage1.png)
+    ![NovaChat Demo](./demo/homePage2.png)
+
     - ChatBot (key part in this project)
+    ![NovaChat Demo](./demo/defaultChatbotPage.png)
+    ![NovaChat Demo](./demo/messagesChatbotPage.png)
+
     - Contact
+    ![NovaChat Demo](./demo/contactPage.png)
+
     - Login
+    ![NovaChat Demo](./demo/loginPage.png)
 
     \* for more detail please check the [**NovaChatFrontend**](https://github.com/michael-140/NovaChat/tree/main/NovaChatFrontend) folder
 2. Backend (Nodejs+Express) 
