@@ -5,9 +5,13 @@ const cors = require("cors")
 const session = require('express-session')
 const chatSocket = require('./chatSocket')
 const chatRoutes = require('./routes/chatRoutes')
+const authorRoutes = require('./routes/authorRoutes')
 
 const app = express()
 const httpServer = http.createServer(app)
+const cookieParser = require('cookie-parser');
+
+
 
 app.use(cors({
     origin: "http://localhost:5173", // allow frontend port only
@@ -15,6 +19,7 @@ app.use(cors({
 }))
 
 app.use(express.json())
+app.use(cookieParser());
 
 app.use(session({
     secret: process.env.SESSION_SCRET || 'nova_secret',
@@ -39,6 +44,7 @@ app.get('/', (req, res)=>{
 })
 
 app.use('/api', chatRoutes)
+app.use('/api', authorRoutes)
 
 const PORT = process.env.PORT || 8000
 httpServer.listen(PORT, ()=>{

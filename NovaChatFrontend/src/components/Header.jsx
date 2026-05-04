@@ -1,7 +1,21 @@
 import { NavLink } from 'react-router'
 import './Header.css'
+import { useAuth } from '../context/AuthContext';
 
 export default function Header() {
+    const { user, setUser } = useAuth();
+
+    const handleLogout = async () => {
+        const res = await fetch('http://localhost:8000/api/logout', {
+            method: 'POST',
+            credentials: 'include'
+        });
+        if (res.ok) {
+            setUser(null);
+            window.location.href = '/login';
+        }
+    };
+
     return (
         <header className="header">
 
@@ -22,8 +36,16 @@ export default function Header() {
                 <NavLink to="/contact" className="nav-link ">Contact</NavLink>
             </div>
             
-            <div href="/login" className="login">
-                <NavLink to="/login" className="nav-link">Login</NavLink>
+            <div className="login">
+                {user ? (
+                    <NavLink className="nav-link" onClick={handleLogout}>
+                        Logout
+                    </NavLink>
+                ) : (
+                    <NavLink to="/login" className="nav-link">
+                        Login
+                    </NavLink>
+                )}
             </div>
 
         </header>

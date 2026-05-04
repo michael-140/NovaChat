@@ -4,11 +4,13 @@ import {HomePage} from './pages/HomePage/HomePage'
 import {ContactPage} from './pages/ContactPage/ContactPage'
 import {LoginPage} from './pages/LoginPage/LoginPage'
 import './App.css'
+import { AuthProvider } from './context/AuthContext'
 
 function App() {
   
   return (
     <>
+    <AuthProvider>
       <Routes>
         {/* The root path should change to Home  */}
         <Route path="/" element={<HomePage/>} /> 
@@ -17,6 +19,7 @@ function App() {
         <Route path="/chatbot" element={<ChatBotPage/>} />
         <Route path="*" element={<LoginPage/>} />
       </Routes>
+    </AuthProvider>
 
     </>
   )

@@ -4,31 +4,52 @@ const router = express.Router()
 const fs = require('fs')
 const path = require('path')
 
-const filePath = path.join(__dirname, '..', 'data', 'chatHistories.json')
+
+const storageDir = path.join(__dirname, '..', 'data', 'chatHistories');
+
+if (!fs.existsSync(storageDir)) {
+    fs.mkdirSync(storageDir, { recursive: true });
+}
+
+const getUserFilePath = (userId) => path.join(storageDir, `${userId}.json`);
 
 
 // api for getting chat histories
 router.get('/chatHistories', (req, res) => {
 
+    const userId = req.cookies.userId
+    
+    if (!userId) {
+        // return res.status(401).json({ error: "Unauthorized" })
+        return
+    }
 
-    fs.readFile(filePath, 'utf-8', (err, data) => {
-        if (err) { // handle file read error
-            return res.status(500).json({ error: "Failed to read chat histories" })
-        }
+    const userFilePath = getUserFilePath(userId);
 
-        try {
-            res.json(JSON.parse(data))
-        } catch (parseErr) { // handle JSON parse error
-            res.status(500).json({ error: "Failed to parse chat histories" })
-        }
-    })
+    if (fs.existsSync(userFilePath)) {
+        try{
+            const data = fs.readFileSync(userFilePath, 'utf-8');
+            res.json(JSON.parse(data));
+        }catch(err){res.status(500).json({ error: "Failed to read chat histories" })}
+
+    } else {
+        res.json([]); // return empty array if no history
+    }
 })
 
 // api for updating chat history
 router.post('/updateChatHistory', (req, res) => {
     const updatedChat = req.body
+    const userId = req.cookies.userId
 
-    fs.readFile(filePath, 'utf8', (err, data) => {
+    if (!userId) {
+        // return res.status(401).json({ error: "Unauthorized" })
+        return
+    }
+
+    const userFilePath = getUserFilePath(userId);
+
+    fs.readFile(userFilePath, 'utf8', (err, data) => {
         let histories = err ? [] : JSON.parse(data);
 
         // Find if this chat already exists by ID
@@ -41,7 +62,7 @@ router.post('/updateChatHistory', (req, res) => {
         }
 
         // Write the updated array back to the JSON file
-        fs.writeFile(filePath, JSON.stringify(histories, null, 2), (writeErr) => {
+        fs.writeFile(userFilePath, JSON.stringify(histories, null, 2), (writeErr) => {
             if (writeErr) return res.status(500).send("Error saving data");
             res.json({ message: "Saved successfully"
                 // , chat: updatedChat 
@@ -53,6 +74,14 @@ router.post('/updateChatHistory', (req, res) => {
 // api for deleting chat history
 router.delete('/updateChatHistory/:id', (req, res) => {
     const chatId = req.params.id
+    const userId = req.cookies.userId
+
+    if (!userId) {
+        // return res.status(401).json({ error: "Unauthorized" })
+        return
+    }
+
+    const filePath = getUserFilePath(userId);
     
     fs.readFile(filePath, 'utf8', (err, data) => {
         let histories = err ? [] : JSON.parse(data)
