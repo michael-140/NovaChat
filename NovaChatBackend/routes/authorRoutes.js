@@ -35,7 +35,7 @@ router.post('/login', (req, res) => {
         });
 
 
-    res.json({ message: `Login successful`, user: { id: user.id, account: user.account } })
+    res.status(200).json({ message: `Login successful`, user: { id: user.id, account: user.account } })
 
 })
 
@@ -71,7 +71,7 @@ router.post('/register', (req, res) => {
 
     users.push(newUser)
     fs.writeFileSync(userFilePath, JSON.stringify(users, null, 2))
-    res.json({ message: `Registration successful ${account}` })
+    res.status(201).json({ message: `Registration successful ${account}` })
 })
 
 // for logout 

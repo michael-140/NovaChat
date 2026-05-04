@@ -38,6 +38,34 @@ All endpoints are prefixed with `/api`.
 *   **Success Response**: `200 OK` with `{ "message": "Chat deleted successfully" }`.
 *   **Error Response**: `500 Internal Server Error` with `{Error deleting data}`.
 
+### **POST /api/register**
+*   **Endpoint**: `http://localhost:8000/api/register`
+*   **Method**: `POST`
+*   **Description**: Registers a new user account. Includes password hashing via `bcrypt` and validation for account length (3-20) and complexity (8+ chars, alphanumeric).
+*   **Success Response**: `200 OK` with `{ message: "Registration successful [account]" }`.
+*   **Error Response**: `400 Bad Request` with `{ error: "Account exists" }` or validation messages.
+
+### **POST /api/login**
+*   **Endpoint**: `http://localhost:8000/api/login`
+*   **Method**: `POST`
+*   **Description**: Validates credentials and issues an **HttpOnly** `userId` cookie. The session is configured with a `maxAge` of 1 hour and `SameSite: 'Lax'` for security.
+*   **Success Response**: `200 OK` with `{ message: "Login successful", user: { id: user.id, account: user.account } }`.
+*   **Error Response**: `400 Bad Request` with `{ error: "Account does not exist/Incorrect password" }`.
+
+### **POST /api/logout**
+*   **Endpoint**: `http://localhost:8000/api/logout`
+*   **Method**: `POST`
+*   **Description**: Terminates the user session by explicitly clearing the `userId` cookie from the browser.
+*   **Success Response**: `200 OK` with `{ message: "Logout successful" }`.
+*   **Error Response**: `500 Internal Server Error` if the cookie clearing process fails.
+
+### **GET /api/reload**
+*   **Endpoint**: `http://localhost:8000/api/reload`
+*   **Method**: `GET`
+*   **Description**: Validates the existing `userId` cookie to maintain session persistence when the user refreshes the page.
+*   **Success Response**: `200 OK` with `{ authenticated: true, user: { id: user.id, account: user.account } }`.
+*   **Error Response**: `401 Unauthorized` with `{ authenticated: false }` if the cookie is missing or invalid.
+
 ## 3. WebSocket (Socket.io) Events
 Real-time messaging is handled through a bidirectional socket connection.
 
@@ -71,3 +99,4 @@ To maintain synchronization between the Sidebar and the Chat Window, the followi
 1. **Install**: `node js`
 2. **Run the dev server**: `run server.js`
 3. **Open**`http://localhost:8000/` (see `Hi! Welcome to NovaChat backend server!` mean backend work)
+

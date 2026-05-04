@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import Header from '../../components/Header';
 import './LoginPage.css';
+import { useAuth } from '../../context/AuthContext';
 
 export function LoginPage() {
     const [isLogin, setIsLogin] = useState(true); 
     const [errorMessage, setErrorMessage] = useState(''); 
+    const { checkAuth } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,6 +28,7 @@ export function LoginPage() {
 
             if (res.ok) {
                 if (isLogin) {
+                    await checkAuth(); 
                     window.location.href = '/chatbot';
                 } else {
                     alert("Registration successful! Please login.");
