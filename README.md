@@ -21,5 +21,5 @@ This is a practice project that deply a AI chatbot with an another UI style.
 
     - Security: Implementation of CORS policies with credential support and protected API routes.
 
-    \* For more details, please check the [**NovaChatBackend**] folder.
+    \* For more details, please check the [**NovaChatBackend**](https://github.com/michael-140/NovaChat/tree/main/NovaChatBackend) folder.
 3. AI (Ollama+deepseek-r1:8b) - In progress
