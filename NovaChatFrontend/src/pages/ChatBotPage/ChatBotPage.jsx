@@ -34,7 +34,7 @@ export function ChatBotPage() {
                     return
                 }
 
-                const hisRes = getHistoryFromBE()
+                const hisRes = await getHistoryFromBE()
 
                 if(hisRes.ok){
                     const data = await hisRes.json();
@@ -48,7 +48,7 @@ export function ChatBotPage() {
             }
 
         }
-    })
+    },[])
 
     useEffect(() => { // fetch chat histories from backend
 
@@ -75,7 +75,7 @@ export function ChatBotPage() {
     }, [])
 
     const syncWithBackend = async (chatToSave) => {
-        if (!chatToSave && !chatToSave.id) return
+        if (!chatToSave || !chatToSave.id) return
 
         try {
             await fetch('http://localhost:8000/api/updateChatHistory', {

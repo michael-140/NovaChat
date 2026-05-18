@@ -5,12 +5,12 @@ export function HomePage() {
     
     const features = [
         {
-            icon: '/nodejsIcon.svg',
+            icon: '/react.svg',
             title: 'Frontend (React)',
             description: 'A responsive and intuitive user interface built with the latest React features.',
         },
         {
-            icon: '/react.svg',
+            icon: '/nodejsIcon.svg',
             title: 'Backend - Node.js (In progress)',
             description: 'High-performance server architecture managing data flow and AI integration.',
         },

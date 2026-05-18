@@ -77,8 +77,7 @@ router.delete('/updateChatHistory/:id', (req, res) => {
     const userId = req.cookies.userId
 
     if (!userId) {
-        // return res.status(401).json({ error: "Unauthorized" })
-        return
+        return res.status(401).json({ error: "Unauthorized" })
     }
 
     const filePath = getUserFilePath(userId);

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const  http = require("http")
 const {Server} = require("socket.io")
@@ -11,8 +12,6 @@ const app = express()
 const httpServer = http.createServer(app)
 const cookieParser = require('cookie-parser');
 
-
-
 app.use(cors({
     origin: "http://localhost:5173", // allow frontend port only
     credentials: true
@@ -22,7 +21,7 @@ app.use(express.json())
 app.use(cookieParser());
 
 app.use(session({
-    secret: process.env.SESSION_SCRET || 'nova_secret',
+    secret: process.env.SESSION_SECRET || 'nova_secret',
     resave: false,
     saveUninitialized: false,
     cookie: {secure: false} // change it after using https
